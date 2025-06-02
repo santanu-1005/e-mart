@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../Context/CartContext';
 import { formatPrice } from '../Utils/formatters';
-import CartItem from '../components/cart/CartItem';
+import CartItem from '../components/Cart/CartItem';
 
 const CartPage = () => {
   const { cartState, clearCart } = useCart();

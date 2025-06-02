@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
-import { useAuth } from '../context/AuthContext';
-import CheckoutForm from '../components/checkout/CheckoutForm';
+import { useAuth } from '../Context/AuthContext';
+import CheckoutForm from '../components/Checkout/Checkoutform';
 import { useEffect } from 'react';
 
 const CheckoutPage = () => {

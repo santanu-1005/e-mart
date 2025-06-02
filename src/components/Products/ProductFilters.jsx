@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Filter, X } from 'lucide-react';
-import { categories } from '../../data/products';
+import { categories } from '../../Data/Products';
 import { formatPrice } from '../../Utils/formatters';
 
 const ProductFilters = ({

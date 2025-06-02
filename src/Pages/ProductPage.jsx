@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ProductGrid from '../components/products/ProductGrid';
-import ProductFilters from '../components/products/ProductFilters';
+import ProductGrid from '../components/Products/ProductGrid';
+import ProductFilters from '../components/Products/ProductFilters';
 import { products, getProductsByCategory, searchProducts } from '../Data/Products';
 // import { Product } from '..';
 
