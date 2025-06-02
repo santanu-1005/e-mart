@@ -10,7 +10,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import NotFoundPage from "./Pages/NotFoundPage";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./Context/AuthContext";
 import { CartProvider } from "./Context/CartContext";
 
 const App = () => {
