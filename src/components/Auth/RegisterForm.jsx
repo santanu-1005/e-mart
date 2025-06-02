@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../Context/AuthContext.js';
+import { useAuth } from '../../Context/AuthContext';
 import { Loader2 } from 'lucide-react'; // Optional loading spinner
 
 const RegisterForm = ({ onSwitchForm }) => {
