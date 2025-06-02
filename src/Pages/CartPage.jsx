@@ -42,7 +42,7 @@ const CartPage = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">
-                Cart Items ({cartState.totalItems})
+                Cart Items ({cartState.items.length})
               </h2>
               <button
                 onClick={clearCart}
@@ -54,17 +54,11 @@ const CartPage = () => {
             
             <div className="divide-y divide-gray-200">
               {cartState.items.map((item) => (
-                <Link
-                  key={item.product.id}
-                  to={`/products/${item.product.id}`}
-                  className='block'
-                >
                   <CartItem
                   key={item.product.id}
                   product={item.product}
                   quantity={item.quantity}
                 />
-                </Link>
               ))}
             </div>
           </div>

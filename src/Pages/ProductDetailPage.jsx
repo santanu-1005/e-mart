@@ -4,6 +4,7 @@ import { getProductById, products } from '../Data/Products';
 import { useCart } from '../Context/CartContext';
 import { formatPrice } from '../Utils/formatters';
 import ProductCard from '../components/Products/ProductCard';
+import toast from 'react-hot-toast';
 
 import {
   Star,
@@ -18,10 +19,10 @@ import {
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, getItemQuantity, updateQuantity } = useCart();
+  const { addToCart, getItemQuantity} = useCart();
 
   const [product, setProduct] = useState(id ? getProductById(Number(id)) : null);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,19 +49,16 @@ const ProductDetailPage = () => {
     if (id) {
       const foundProduct = getProductById(Number(id));
       setProduct(foundProduct);
-      const cartQuantity = getItemQuantity(Number(id));
-      setQuantity(cartQuantity || 1);
+      // const cartQuantity = getItemQuantity(Number(id));
       setActiveImageIndex(0);
     }
   }, [id, getItemQuantity]);
 
 const handleAddToCart = () => {
-  if (product) {
-    const currentQuantity = getItemQuantity(product.id);
-    if (currentQuantity === 0) {
-      addToCart(product, quantity);
-    }
-    window.alert(`${product.name} added to cart!`);
+  if (product && quantity > 0) {
+    addToCart(product, quantity);
+    setQuantity(0);
+    toast.success(`${product.name} added to cart!`);
   }
 };
 
@@ -70,7 +68,6 @@ const handleAddToCart = () => {
   if (product && quantity < product.stock) {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    updateQuantity(product.id, newQuantity); // sync immediately to cart
   }
 };
 
@@ -78,7 +75,9 @@ const decrementQuantity = () => {
   if (quantity > 1) {
     const newQuantity = quantity - 1;
     setQuantity(newQuantity);
-    updateQuantity(product.id, newQuantity); // sync immediately to cart
+  }
+  if (quantity === 1) {
+    setQuantity(0);
   }
 };
 
@@ -149,7 +148,7 @@ const decrementQuantity = () => {
         <span className="text-gray-700 font-medium">{product.name}</span>
       </div>
 
-      <button onClick={() => navigate(-1)} className="flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-6">
+      <button onClick={() => navigate("/products")} className="flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-6">
         <ChevronLeft size={20} className="mr-1" />
         Back to products
       </button>
@@ -229,20 +228,20 @@ const decrementQuantity = () => {
             <div className="flex items-center border border-gray-300 rounded">
               <button
                 onClick={decrementQuantity}
-                disabled={quantity <= 1}
-                className={`px-3 py-1 ${
-                  quantity <= 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'
+                disabled={quantity < 0}
+                className={`px-3 py-1 cursor-pointer ${
+                  quantity <= 0 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
                 -
               </button>
-              <span className="px-3 py-1 border-x border-gray-300 min-w-[40px] text-center">
+              <span className="px-3 py-1 border-x  border-gray-300 min-w-[40px] text-center">
                 {quantity}
               </span>
               <button
                 onClick={incrementQuantity}
                 disabled={quantity >= product.stock}
-                className={`px-3 py-1 ${
+                className={`px-3 cursor-pointer py-1 ${
                   quantity >= product.stock ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
@@ -255,8 +254,8 @@ const decrementQuantity = () => {
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className={`flex-1 py-3 px-6 flex items-center justify-center rounded font-medium ${
-                product.stock === 0
+              className={`flex-1 py-3 px-6 flex items-center justify-center rounded-xl bg-purple-600 text-white cursor-pointer font-bold ${
+                product.stock === 0 
                   ? 'bg-gray-300 cursor-not-allowed text-gray-500'
                   : 'btn-primary'
               }`}
@@ -267,7 +266,7 @@ const decrementQuantity = () => {
 
             <button
               onClick={toggleWishlist}
-              className={`px-4 py-3 rounded font-medium border ${
+              className={`px-4 py-3 rounded-xl font-medium border cursor-pointer ${
                 isWishlisted
                   ? 'bg-red-50 text-red-600 border-red-200'
                   : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'

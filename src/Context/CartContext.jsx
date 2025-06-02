@@ -47,9 +47,12 @@ function cartReducer(state, action) {
 
     case 'UPDATE_QUANTITY': {
       const { productId, quantity } = action.payload;
-      const updatedItems = state.items.map(item =>
+      let updatedItems = state.items.map(item =>
         item.product.id === productId ? { ...item, quantity } : item
       );
+      
+      updatedItems = updatedItems.filter(item => item.quantity > 0); // Remove items with zero quantity
+
       const { totalItems, totalPrice } = calculateTotals(updatedItems);
       return { items: updatedItems, totalItems, totalPrice };
     }
