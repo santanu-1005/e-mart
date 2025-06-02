@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getProductById, products } from '../data/products';
+import { getProductById, products } from '../Data/Products';
 import { useCart } from '../Context/CartContext';
 import { formatPrice } from '../Utils/formatters';
 import ProductCard from '../components/Products/ProductCard';
